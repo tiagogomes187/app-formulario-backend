@@ -10,7 +10,7 @@ function required(name: string): string {
 
 export const config = {
   nodeEnv: process.env.NODE_ENV ?? "development",
-  port: Number(process.env.PORT ?? 3001),
+  port: Number(process.env.PORT ?? 3000),
   corsOrigin: process.env.CORS_ORIGIN ?? "http://localhost:5173",
   db: {
     host: process.env.DB_HOST ?? "127.0.0.1",
