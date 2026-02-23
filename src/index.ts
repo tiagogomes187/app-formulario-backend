@@ -36,6 +36,7 @@ const submissionSchema = z.object({
   message: z.string().trim().min(1).max(2000)
 });
 
+app.get("/", (_req: Request, res: Response) => res.status(200).send("ok"));
 app.get("/health", (_req: Request, res: Response) => res.json({ ok: true }));
 
 app.post("/api/submissions", async (req: Request, res: Response) => {
@@ -61,6 +62,8 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
   console.error(err);
   res.status(500).json({ error: "Erro interno" });
 });
+
+console.log("Starting app. PORT env=", process.env.PORT);
 
 app.listen(config.port, "0.0.0.0", () => {
   console.log(`API rodando na porta ${config.port}`);

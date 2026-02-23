@@ -1,12 +1,30 @@
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
+
+dotenv.config();
+
+function log(msg: string) {
+  try {
+    const p = path.resolve(process.cwd(), "startup.log");
+    fs.appendFileSync(p, `[${new Date().toISOString()}] ${msg}\n`);
+  } catch {
+    // se não conseguir escrever, não quebra o app
+  }
+}
 
 dotenv.config();
 
 function required(name: string): string {
   const v = process.env[name];
-  if (!v) throw new Error(`Faltando variável de ambiente: ${name}`);
+  if (!v) {
+    log(`Missing env var: ${name}`);
+    throw new Error(`Faltando variável de ambiente: ${name}`);
+  }
   return v;
 }
+
+log(`Boot config.ts. PORT env=${process.env.PORT ?? ""} DB_HOST env=${process.env.DB_HOST ?? ""}`);
 
 export const config = {
   nodeEnv: process.env.NODE_ENV ?? "development",
